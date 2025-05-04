@@ -52,7 +52,7 @@ class LessonFile(models.Model):
 
 class Task(models.Model):
     question = models.TextField()
-    correct_answer = models.CharField(max_length=255)
+    correct_answer = models.CharField(blank=True, max_length=255)
     is_auto = models.BooleanField(default=True)
     ball = models.IntegerField(default=1)
 

@@ -29,15 +29,15 @@ class LessonSerializer(serializers.ModelSerializer):
         return lesson
 
     def update(self, instance, validated_data):
-        try: 
-            LessonFile.objects.filter(lesson=instance).delete()
-        except:
-            pass
         files_data = self.context.get('request').FILES.getlist('files')
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
         if files_data:
+            try: 
+                LessonFile.objects.filter(lesson=instance).delete()
+            except:
+                pass
             for file_data in files_data:
                 LessonFile.objects.create(lesson=instance, file=file_data)
         return instance
@@ -101,15 +101,16 @@ class TaskSerializer(serializers.ModelSerializer):
         return task
 
     def update(self, instance, validated_data):
-        try: 
-            TaskFile.objects.filter(task=instance).delete()
-        except:
-            pass
+
         files_data = self.context.get('request').FILES.getlist('files')
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
         if files_data:
+            try: 
+                TaskFile.objects.filter(task=instance).delete()
+            except:
+                pass
             for file_data in files_data:
                 TaskFile.objects.create(task=instance, file=file_data)
         return instance
@@ -144,15 +145,15 @@ class UserTaskAnswerSerializer(serializers.ModelSerializer):
         return usertaskanswer
 
     def update(self, instance, validated_data):
-        try: 
-            UserTaskAnswerFile.objects.filter(usertaskanswer=instance).delete()
-        except:
-            pass
         files_data = self.context.get('request').FILES.getlist('files')
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
         if files_data:
+            try: 
+                UserTaskAnswerFile.objects.filter(usertaskanswer=instance).delete()
+            except:
+                pass
             for file_data in files_data:
                 UserTaskAnswerFile.objects.create(usertaskanswer=instance, file=file_data)
         return instance

@@ -92,8 +92,16 @@ class UserEditView(viewsets.ReadOnlyModelViewSet):
         teacher.save()
         return Response({f"Пользователь c id {request.POST.get('id_will_teacher')} теперь является учителем!"})
     
+    @action(detail=False, methods=['post'])
+    def get_admin(self, request):
+        adm = User.objects.get(pk=request.POST.get('id_will_admin'))
+        adm.is_admin = True
+        adm.save()
+        return Response({f"Пользователь c id {request.POST.get('id_will_admin')} теперь является администратором!"})
+
+
     def get_permissions(self):
-        if self.action == 'get_teacher':
+        if self.action == 'get_teacher' or self.action == 'get_admin':
             permission_classes = [IsAuthenticated, IsAdmin]
         else:
             permission_classes = [IsAuthenticated, IsTeacher]
