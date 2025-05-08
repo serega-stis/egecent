@@ -6,7 +6,9 @@ class User(AbstractUser):
     photo = models.ImageField(upload_to='user_photos/', null=True, blank=True)
     is_teacher = models.BooleanField(default=False, verbose_name='Учитель ли')
     is_admin = models.BooleanField(default=False, verbose_name='Администратор ли')
-    REQUIRED_FIELDS = ['date_birth', 'is_teacher', 'is_admin', 'photo']
+    email = models.EmailField('email address', unique=True)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username', 'date_birth', 'is_teacher', 'is_admin', 'photo']
 
 class Subjects(models.Model):
     name = models.CharField(max_length=200, verbose_name='Название предмета')
