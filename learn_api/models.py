@@ -41,7 +41,8 @@ class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lessons')
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True, verbose_name='Описание урока')
-    
+    lesson_date = models.DateField()
+
     def __str__(self):
         return self.title
 
@@ -57,6 +58,8 @@ class Task(models.Model):
     correct_answer = models.CharField(blank=True, max_length=255)
     is_auto = models.BooleanField(default=True)
     ball = models.IntegerField(default=1)
+    exam_number = models.IntegerField() 
+
 
     def __str__(self):
         return self.question

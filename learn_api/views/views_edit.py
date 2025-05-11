@@ -95,6 +95,7 @@ class UserEditView(viewsets.ReadOnlyModelViewSet):
     @action(detail=False, methods=['post'])
     def get_admin(self, request):
         adm = User.objects.get(pk=request.POST.get('id_will_admin'))
+        adm.is_teacher = True
         adm.is_admin = True
         adm.save()
         return Response({f"Пользователь c id {request.POST.get('id_will_admin')} теперь является администратором!"})
