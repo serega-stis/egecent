@@ -52,7 +52,7 @@ class HomeworkSubmitView(APIView):
     def post(self, request, home_id):
         data = request.POST
         files = request.FILES
-        if not data: return Response({"Пустая форма отправки"})
+        if (not data) and (not files): return Response({"Пустая форма отправки"})
         homework = Homework.objects.get(pk=home_id)
         tasks = list(HomeworkSerializer(homework).data['tasks'])
         res = UserHomeworkResult(homework=homework, user=self.request.user)
