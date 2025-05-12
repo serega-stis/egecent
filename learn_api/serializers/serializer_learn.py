@@ -18,7 +18,7 @@ class LessonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
-        fields = ['id', 'title', 'homework', 'course', 'files']
+        fields = ['id', 'title', 'lesson_date', 'homework', 'course', 'files']
 
     def create(self, validated_data):
         files_data = self.context.get('request').FILES.getlist('files')
@@ -83,7 +83,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Task
-        fields = ['id', 'question', 'correct_answer', 'ball', 'is_auto', 'number', 'files']
+        fields = ['id', 'question', 'subject', 'exam_number', 'correct_answer', 'ball', 'is_auto', 'number', 'files']
 
     def get_number(self, obj):
         try:

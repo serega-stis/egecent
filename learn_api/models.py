@@ -54,12 +54,17 @@ class LessonFile(models.Model):
         return f"File for {self.lesson}"
 
 class Task(models.Model):
+    SUBJECTS = [
+        ('Информатика', 1), ('Математика профильная', 2), ('Математика базовая', 3), ('Математика', 4),
+        ('Физика', 5), ('Русский язык', 6), ('Английский язык', 7), ('Литература', 8),
+        ('Биология', 9), ('Химия', 10), ('История', 11), ('Обществознание', 12),
+    ]
     question = models.TextField()
     correct_answer = models.CharField(blank=True, max_length=255)
     is_auto = models.BooleanField(default=True)
     ball = models.IntegerField(default=1)
     exam_number = models.IntegerField() 
-
+    subject = models.CharField(choices=SUBJECTS, verbose_name='Название предмета')
 
     def __str__(self):
         return self.question
@@ -80,6 +85,12 @@ class Homework(models.Model):
         return self.title
 
 class UserHomeworkResult(models.Model):
+    SUBJECTS = [
+        ('Информатика', 1), ('Математика профильная', 2), ('Математика базовая', 3), ('Математика', 4),
+        ('Физика', 5), ('Русский язык', 6), ('Английский язык', 7), ('Литература', 8),
+        ('Биология', 9), ('Химия', 10), ('История', 11), ('Обществознание', 12),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     homework = models.OneToOneField(Homework, on_delete=models.CASCADE, related_name='result')
     created_at = models.DateTimeField(auto_now_add=True)

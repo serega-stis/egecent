@@ -8,6 +8,26 @@ from ..serializers.serializer_edit import *
 from ..permissions import IsTeacher, IsAdmin
 from django.db.models import Sum
 from rest_framework.permissions import IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
+import django_filters
+
+
+class UHFilter(django_filters.FilterSet):
+    course = django_filters.CharFilter(method='filter_course')
+    subject = django_filters.CharFilter(method='filter_subject')
+    teacher = django_filters.NumberFilter(method='filter_teacher')
+    class Meta:
+        model = UserHomeworkResult
+        fields = ['course', 'subject']
+
+    def filter_course(self, queryset, name, value):
+        return queryset.filter(homework__lesson__course__title=value)
+    
+    def filter_subject(self, queryset, name, value):
+        return queryset.filter(homework__lesson__course__subject=value)
+    
+    def filter_teacher(self, queryset, name, value):
+        return queryset.filter(homework__lesson__course__teacher=value)
 
 
 class CourseEditView(viewsets.ModelViewSet):
@@ -39,6 +59,9 @@ class HomeworkEditView(viewsets.ModelViewSet):
 class UserHomeworkView(generics.ListAPIView):
     serializer_class = UserHomeworkSerializer
     queryset = UserHomeworkResult.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = UHFilter
+    filterset_fields = ['user', 'course', 'subject', 'teacher']
     permission_classes = [IsTeacher, IsAuthenticated]
 
 
@@ -50,7 +73,9 @@ class UserHomeworkInfoView(generics.RetrieveUpdateAPIView):
 class TaskEditView(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
-
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['exam_number', 'is_auto', 'subject']
+    
     def get_permissions(self):
         if self.action == 'delete':
             permission_classes = [IsAuthenticated, IsAdmin]

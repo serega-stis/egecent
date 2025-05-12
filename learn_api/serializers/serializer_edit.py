@@ -41,10 +41,21 @@ class HomeworkSerializerEdit(serializers.ModelSerializer):
 
 
 class UserHomeworkSerializer(serializers.ModelSerializer):
+    course = serializers.SerializerMethodField()
+    subject = serializers.SerializerMethodField()
+    teacher = serializers.SerializerMethodField()
     class Meta:
         model = UserHomeworkResult
-        fields = ['id', 'user', 'homework', 'created_at', 'result']
+        fields = ['id', 'user', 'homework', 'course', 'subject', 'teacher', 'created_at', 'result']
 
+    def get_course(self, obj):
+        return CourseSerializer(obj.homework.lesson.course).data['title']
+    
+    def get_subject(self, obj):
+        return CourseSerializer(obj.homework.lesson.course).data['subject']
+
+    def get_teacher(self, obj):
+        return CourseSerializer(obj.homework.lesson.course).data['teacher']
 
 class UserHomeworkInfoSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
