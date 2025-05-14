@@ -66,9 +66,16 @@ class HomeworkSubmitView(APIView):
                                       correct_answer=task['correct_answer'],
                                       result=result_ball)        
             tasktext.save()
-        for num, ans in files.items():
-            taskfile = UserTaskAnswer(number=num, answers_files=ans, homework_result=res, is_auto=False)
+        for num, ans in dict(files).items():
+            taskfile = UserTaskAnswer(number=num, homework_result=res, is_auto=False)
             taskfile.save()
+            print(ans)
+            for fl in ans:
+                print(fl)
+                utaf = UserTaskAnswerFile(usertaskanswer=taskfile, file=fl)
+                utaf.save()
+
+
         res.result = res.task_results.aggregate(total=Sum('result'))['total']
         res.save()
         serializer = HomeworkSubmitSerializer(res)
