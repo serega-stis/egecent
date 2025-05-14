@@ -67,7 +67,7 @@ class HomeworkSubmitView(APIView):
                                       result=result_ball)        
             tasktext.save()
         for num, ans in files.items():
-            taskfile = UserTaskAnswer(number=num, answers_files=ans, homework_result=res)
+            taskfile = UserTaskAnswer(number=num, answers_files=ans, homework_result=res, is_auto=False)
             taskfile.save()
         res.result = res.task_results.aggregate(total=Sum('result'))['total']
         res.save()
