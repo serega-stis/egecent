@@ -109,6 +109,8 @@ class RateAnswerView(APIView):
 class UserEditView(viewsets.ReadOnlyModelViewSet):
     serializer_class = UsersSerializer
     queryset = User.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['first_name', 'last_name', 'id']
 
     @action(detail=False, methods=['post'])
     def get_teacher(self, request):
