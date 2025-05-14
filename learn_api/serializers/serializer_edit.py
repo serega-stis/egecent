@@ -44,9 +44,15 @@ class UserHomeworkSerializer(serializers.ModelSerializer):
     course = serializers.SerializerMethodField()
     subject = serializers.SerializerMethodField()
     teacher = serializers.SerializerMethodField()
+    user = serializers.SerializerMethodField()
+
     class Meta:
         model = UserHomeworkResult
         fields = ['id', 'user', 'homework', 'course', 'subject', 'teacher', 'created_at', 'result']
+
+    def get_user(self, obj):
+        us = UsersSerializer(obj.user).data
+        return f"id: {us.get('id')} {us.get('first_name')} {us.get('last_name')}"
 
     def get_course(self, obj):
         return CourseSerializer(obj.homework.lesson.course).data['title']
@@ -55,7 +61,9 @@ class UserHomeworkSerializer(serializers.ModelSerializer):
         return CourseSerializer(obj.homework.lesson.course).data['subject']
 
     def get_teacher(self, obj):
-        return CourseSerializer(obj.homework.lesson.course).data['teacher']
+        tch = CourseSerializer(obj.homework.lesson.course).data['teacher'] 
+        us = UsersSerializer(User.objects.get(id=tch)).data
+        return f"id: {us.get('id')} {us.get('first_name')} {us.get('last_name')}" 
 
 class UserHomeworkInfoSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
@@ -74,4 +82,4 @@ class UserHomeworkInfoSerializer(serializers.ModelSerializer):
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'username', 'last_name', 'email', 'date_birth', 'photo', 'is_teacher', 'is_admin']
+        fields = ['id', 'first_name', 'last_name', 'email', 'date_birth', 'photo', 'is_teacher', 'is_admin']
