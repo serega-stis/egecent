@@ -69,13 +69,9 @@ class HomeworkSubmitView(APIView):
         for num, ans in dict(files).items():
             taskfile = UserTaskAnswer(number=num, homework_result=res, is_auto=False)
             taskfile.save()
-            print(ans)
             for fl in ans:
-                print(fl)
                 utaf = UserTaskAnswerFile(usertaskanswer=taskfile, file=fl)
                 utaf.save()
-
-
         res.result = res.task_results.aggregate(total=Sum('result'))['total']
         res.save()
         serializer = HomeworkSubmitSerializer(res)

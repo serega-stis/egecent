@@ -8,7 +8,7 @@ class User(AbstractUser):
     is_admin = models.BooleanField(default=False, verbose_name='Администратор ли')
     email = models.EmailField('email address', unique=True)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'date_birth', 'is_teacher', 'is_admin', 'photo']
+    REQUIRED_FIELDS = ['username', 'last_name', 'first_name', 'date_birth', 'is_teacher', 'is_admin', 'photo']
 
 class Subjects(models.Model):
     name = models.CharField(max_length=200, verbose_name='Название предмета')
