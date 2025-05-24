@@ -186,3 +186,15 @@ class HomeworkResultSerializer(serializers.ModelSerializer):
     
     def get_tasks_id(self, obj):
         return [str(task.id) for task in obj.homework.tasks.all()]
+    
+class SelectedTasksSerializer(serializers.ModelSerializer):
+    tasks = serializers.SerializerMethodField()
+
+    class Meta:
+        model = SelectedTasks
+        fields = ['tasks']
+
+    def get_tasks(self, obj):
+        tasks = obj.tasks.all()
+        serializer = TaskSerializer(tasks, many=True, context={'tasks': tasks})
+        return serializer.data

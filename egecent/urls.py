@@ -14,6 +14,8 @@ learn_paths = [
     path('homework/<int:pk>/', HomeworkInfoView.as_view()),
     path('tasks/<int:pk>/', TaskView.as_view()),
     path('homework/<int:home_id>/submit/', HomeworkSubmitView.as_view()),
+    path('stateuser/', StateUser.as_view()),
+    path('selectedtasks/', SelectedTasksView.as_view()),
 ]
 
 edit_paths_router = DefaultRouter()

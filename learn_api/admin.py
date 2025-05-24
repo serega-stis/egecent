@@ -29,4 +29,5 @@ admin.site.register(TaskFile)
 admin.site.register(UserHomeworkResult)
 admin.site.register(UserTaskAnswer)
 admin.site.register(UserTaskAnswerFile)
+admin.site.register(SelectedTasks)
 

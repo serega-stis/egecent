@@ -111,3 +111,8 @@ class UserTaskAnswerFile(models.Model):
 
     def __str__(self):
         return f"File for {self.usertaskanswer}"
+    
+
+class SelectedTasks(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    tasks = models.ManyToManyField(Task)
